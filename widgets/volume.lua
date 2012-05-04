@@ -7,8 +7,8 @@ volumeWidget.widget = widget({ type = "textbox", name = "volumeWidget.widget", a
 volumeWidget.icon = widget({ type = "imagebox" })
 volumeWidget.icon.image = image(beautiful.widget_volume)
 
-volumeWidget_t = awful.tooltip({ objects = { volumeWidget.widget },})
-volumeWidget_t:set_text("Volume")
+volumeWidget.tooltip = awful.tooltip({ objects = { volumeWidget.widget },})
+volumeWidget.tooltip:set_text("Volume")
 
 -- command must start with a space!
 volumeWidget.mixercommand = function (command)
@@ -44,6 +44,11 @@ volumeWidget.toggle = function ()
        volumeWidget.mixercommand(" sset " .. volumeWidget.channel .. " toggle")
 end
 volumeWidget.widget:buttons({
+       button({ }, 4, function () volumeWidget.up() end),
+       button({ }, 5, function () volumeWidget.down() end),
+       button({ }, 1, function () volumeWidget.toggle() end)
+})
+volumeWidget.icon:buttons({
        button({ }, 4, function () volumeWidget.up() end),
        button({ }, 5, function () volumeWidget.down() end),
        button({ }, 1, function () volumeWidget.toggle() end)

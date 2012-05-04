@@ -9,7 +9,7 @@ memoryWidget:set_gradient_colors({ '#AECF96', '#88A175', '#FF5656' })
 memoryWidget.icon = widget({ type = "imagebox" })
 memoryWidget.icon.image = image(beautiful.widget_memory)
 
-memoryWidget.tooltip = awful.tooltip({ objects = { memoryWidget.widget },})
+memoryWidget.tooltip = awful.tooltip({ objects = { memoryWidget.widget, memoryWidget.icon},})
 
 vicious.cache(vicious.widgets.mem)
 vicious.register(memoryWidget, vicious.widgets.mem,
