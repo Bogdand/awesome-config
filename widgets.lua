@@ -18,6 +18,7 @@ require('widgets/memory')
 require('widgets/cpu')
 require('widgets/volume')
 require('widgets/moc')
+require('widgets/keyboard')
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -101,6 +102,7 @@ for s = 1, screen.count() do
 	cpuWidget.widget, spacer, cpuWidget.icon, spacer, separator, spacer,
 	memoryWidget.widget, spacer, memoryWidget.icon, spacer, separator, spacer,
         volumeWidget.widget, spacer, volumeWidget.icon, spacer, separator, spacer,
+        keyboardWidget.widget, spacer, separator, spacer,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft

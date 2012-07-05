@@ -16,4 +16,3 @@ vicious.register(batteryWidget.widget, vicious.widgets.bat,
 batteryWidget.tooltip = awful.tooltip({ objects = { batteryWidget.widget, batteryWidget.icon },})
 batteryWidget.tooltip:set_text("Battery")
 -- }}}
-
