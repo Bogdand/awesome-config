@@ -110,6 +110,8 @@ theme.widget_battery = themedir .. "/icons/bat.png"
 theme.widget_cpu = themedir .. "/icons/cpu.png"
 theme.widget_memory = themedir .. "/icons/mem.png"
 theme.widget_volume = themedir .. "/icons/vol.png"
+theme.lang_ru = themedir .. "/icons/lang_ru.png"
+theme.lang_en = themedir .. "/icons/lang_en.png"
 
 -- {{{ Taglist
 theme.taglist_squares_sel   = sharedzenburn .. "taglist/squarefz.png"

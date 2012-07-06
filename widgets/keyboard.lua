@@ -2,26 +2,22 @@
 keyboardWidget = {}
 keyboardWidget.widget = widget({ type = "imagebox", align = "right" })
 keyboardWidget.updateKeyboardLayout = function()
-	local fd = io.popen("skb a")
+	local fd = io.popen("xset -q | grep -A 0 'LED' | cut -c59-67")
     local key_layout = fd:read()
     fd:close()
-    -- dbg(key_layout)
---     if string.find(status, "on", 1, true) then
--- 		volume = volume .. "%"
--- 		awful.util.spawn_with_shell("amixer -c 0 sset Speaker unmute") 
--- 		awful.util.spawn_with_shell("amixer -c 0 sset Headphone unmute") 
--- --		io.popen("amixer -c 0 sset Master unmute")
--- --		io.popen("amixer -c 0 sset Front unmute")
--- --		io.popen("amixer -c 0 sset Headphone unmute")
---        else
+    local flag
+    if     key_layout == "00001000" then flag = "ru"
+    elseif key_layout == "00000000" then flag = "en"
+    else 
+    	flag = "en"
+    end
 
---     beautiful.widget_volume
-
---     keyboardWidget.widget.image = image(home_dir .. "/.icons/flags/" .. key_layout .. ".png")
+	local flag_icon = 'lang_' .. flag
+	keyboardWidget.widget.image = image(beautiful[flag_icon])
     return
 end
 
--- awful.hooks.timer.register(1,  keyboardWidget.updateKeyboardLayout)
+awful.hooks.timer.register(1,  keyboardWidget.updateKeyboardLayout)
 -- dbus.add_match("session", "member='LayoutUpdated'")
 
 -- dbus.add_match("session", "member='LayoutUpdated'")
