@@ -43,16 +43,32 @@ end
 volumeWidget.toggle = function ()
        volumeWidget.mixercommand(" sset " .. volumeWidget.channel .. " toggle")
 end
-volumeWidget.widget:buttons({
-       button({ }, 4, function () volumeWidget.up() end),
-       button({ }, 5, function () volumeWidget.down() end),
-       button({ }, 1, function () volumeWidget.toggle() end)
-})
-volumeWidget.icon:buttons({
-       button({ }, 4, function () volumeWidget.up() end),
-       button({ }, 5, function () volumeWidget.down() end),
-       button({ }, 1, function () volumeWidget.toggle() end)
-})
+
+volumeWidget.widget:buttons(awful.util.table.join(
+    awful.button({ }, 1, function()
+        volumeWidget.toggle()
+    end),    
+    awful.button({ }, 4, function()
+        volumeWidget.up()
+    end),
+    awful.button({ }, 5, function()
+        volumeWidget.down()
+    end)
+    )
+)
+
+volumeWidget.icon:buttons(awful.util.table.join(
+    awful.button({ }, 1, function()
+        volumeWidget.toggle()
+    end),    
+    awful.button({ }, 4, function()
+        volumeWidget.up()
+    end),
+    awful.button({ }, 5, function()
+        volumeWidget.down()
+    end)
+    )
+)
+
 volumeWidget.update()
 -- }}}
-

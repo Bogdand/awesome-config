@@ -19,3 +19,4 @@ end
 
 dbus.add_match("session", "member='XAyatanaNewLabel'")
 dbus.add_signal("org.kde.StatusNotifierItem", keyboardWidget.updateKeyboardLayout)
+keyboardWidget.updateKeyboardLayout()

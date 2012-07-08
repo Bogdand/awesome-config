@@ -24,7 +24,3 @@ naughty.notify(
             os.date("%d%/%m/%Y %T:\n\n")
             .. err .. "\n", timeout = 0}
     )
-
-
-
-
