@@ -65,9 +65,9 @@ globalkeys = awful.util.table.join(
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
               end),
-    awful.key({ }, "XF86AudioRaiseVolume", function () volumecfg.up() end),
-    awful.key({ }, "XF86AudioLowerVolume", function () volumecfg.down() end),
-    awful.key({ }, "XF86AudioMute", function () volumecfg.toggle() end)
+    awful.key({ }, "XF86AudioRaiseVolume", function () volumeWidget.up() end),
+    awful.key({ }, "XF86AudioLowerVolume", function () volumeWidget.down() end),
+    awful.key({ }, "XF86AudioMute", function () volumeWidget.toggle() end)
 )
 
 clientkeys = awful.util.table.join(
