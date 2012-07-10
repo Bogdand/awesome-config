@@ -53,7 +53,7 @@ theme.fg_urgent = "#CC9393"
 theme.fg_minimize   = "#ffffff"
 theme.bg_normal = "#3F3F3F"
 theme.bg_focus  = "#1E2320"
-theme.bg_urgent = "#3F3F3Fsharedzenburn .. "
+theme.bg_urgent = "#3F3F3F"
 theme.bg_minimize   = "#444444"
 -- }}}
 
@@ -78,6 +78,8 @@ theme.titlebar_bg_normal = "#496F66"
 -- mouse_finder_[color|timeout|animate_timeout|radius|factor]
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
+
+theme.taglist_bg_urgent = "#FF0000"
 
 -- {{{ Widgets
 -- You can add as many variables as
