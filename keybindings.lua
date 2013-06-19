@@ -53,7 +53,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
-    awful.key({ modkey, "Shift"}, "Escape", function () awful.util.spawn("xscreensaver-command -lock") end),
+    awful.key({ modkey, "Shift"}, "Escape", function () awful.util.spawn("gnome-screensaver-command -l") end),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
