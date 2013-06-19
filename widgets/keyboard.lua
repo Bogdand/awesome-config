@@ -6,8 +6,8 @@ keyboardWidget.updateKeyboardLayout = function()
     local key_layout = fd:read()
     fd:close()
     local flag
-    if     key_layout == "00001002" then flag = "ru"
-    elseif key_layout == "00000002" then flag = "en"
+    if     string.starts(key_layout, "00001") then flag = "ru"
+    elseif string.starts(key_layout, "00000") then flag = "en"
     else 
     	flag = "en"
     end
