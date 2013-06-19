@@ -17,6 +17,7 @@ awful.rules.rules = {
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
     { rule = { class = "Skype" }, properties = { tag = tags[1][3], switchtotag = true } },
+    { rule = { class = "browser" }, properties = { tag = tags[1][2], switchtotag = true } },
 --    { rule = { name = "Chromium" }, properties = { tag = tags[1][2], switchtotag = true } },
     { rule = { class = "mail" }, properties = { tag = tags[1][4], switchtotag = true } },
 
