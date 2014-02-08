@@ -2,12 +2,12 @@
 keyboardWidget = {}
 keyboardWidget.widget = widget({ type = "imagebox", align = "right" })
 keyboardWidget.updateKeyboardLayout = function()
-	local fd = io.popen("xset -q | grep -A 0 'LED' | cut -c59-67")
+	local fd = io.popen("setxkbmap -print | grep xkb_symbols | awk '{print $4}' | awk -F'+' '{print $2}'")    
     local key_layout = fd:read()
-    fd:close()
+    fd:close()    
     local flag
-    if     key_layout == "00001002" then flag = "ru"
-    elseif key_layout == "00000002" then flag = "en"
+    if     key_layout == "ru" then flag = "ru"
+    elseif key_layout == "us" then flag = "en"
     else 
     	flag = "en"
     end
@@ -17,6 +17,7 @@ keyboardWidget.updateKeyboardLayout = function()
     return
 end
 
-dbus.add_match("session", "member='XAyatanaNewLabel'")
-dbus.add_signal("org.kde.StatusNotifierItem", keyboardWidget.updateKeyboardLayout)
+dbus.add_match("session", "interface='ca.desrt.dconf.Writer', arg0path='/org/gnome/desktop/input-sources/'")
+dbus.add_signal("ca.desrt.dconf.Writer", keyboardWidget.updateKeyboardLayout)
+ 
 keyboardWidget.updateKeyboardLayout()
