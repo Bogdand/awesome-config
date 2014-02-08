@@ -3,10 +3,11 @@ batteryWidget = {}
 batteryWidget.widget = widget({ type = "textbox" })
 batteryWidget.icon = widget({ type = "imagebox" })
 batteryWidget.icon.image = image(beautiful.widget_battery)
+batteryWidget.lastVolume = "100"
 
 -- Register widget
-vicious.register(batteryWidget.widget, vicious.widgets.bat,
-	function (widget, args)		
+vicious.register(batteryWidget.widget, vicious.widgets.bat,	
+	function (widget, args)
 		if args[2] == 0 then return ""		
 		else
 			local color = 'white'
@@ -17,7 +18,7 @@ vicious.register(batteryWidget.widget, vicious.widgets.bat,
 				color = 'red'
 			end			
 
-			if (args[2] < 20) then				
+			if ((args[1] == "-") and (args[2] < 20)) then				
 				naughty.notify({
 				title = "Battery level critically low: " .. args[2],
 			    icon = beautiful.widget_battery,
@@ -27,9 +28,11 @@ vicious.register(batteryWidget.widget, vicious.widgets.bat,
 			    })		
 			end
 
+			batteryWidget.lastVolume = args[2]
 			return "<span color='" .. color .. "'>".. args[2] .. "%</span>"
 		end
-	end, 61, "BAT0")
+	end, 61, "BAT1")
+
 
 batteryWidget.tooltip = awful.tooltip({ objects = { batteryWidget.widget, batteryWidget.icon },})
-batteryWidget.tooltip:set_text("Battery")
+batteryWidget.tooltip:set_text("Battery: " .. batteryWidget.lastVolume .. "%")
