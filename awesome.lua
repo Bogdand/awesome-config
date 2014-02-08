@@ -7,18 +7,15 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
-require("vicious") 
+vicious = require("vicious") 
 require("helpers")
 require("markup")
-
--- Load Debian menu entries
-require("debian.menu")
 
 -- Themes define colours, icons, and wallpapers
 -- beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 configpath="/home/"..os.getenv("USER").."/.config/awesome/"
 beautiful.init(configpath.."/themes/greenaste/theme.lua")
--- dbg(beautiful.awesome_icon)
+--dbg(beautiful.awesome_icon)
 
 require('global')
 require('layouts')

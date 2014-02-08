@@ -4,12 +4,12 @@ myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua" },
    { "restart", awesome.restart },
-   { "quit", awesome.quit },
+   { "Log out", function () awesome.spawn("gnome-session-quit"); end},
+   { "Lock screen", function () awesome.spawn("gnome-screensaver-command -l"); end},
    { "Shutdown", function () awesome.spawn("gdm-control --shutdown"); awesome.quit() end}
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu },
-                                    { "Debian", debian.menu.Debian_menu.Debian },
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu },                                    
                                     { "open terminal", terminal }
                                   }
                         })
