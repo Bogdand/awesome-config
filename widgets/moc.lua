@@ -4,7 +4,12 @@ mocWidget = {}
 
 function hook_moc()
     moc_info = io.popen("mocp -i"):read("*all")
-    moc_state = string.gsub(string.match(moc_info, "State: %a*"),"State: ","")
+    
+    if (moc_info == nil) then 
+      return 
+    end
+
+    moc_state = string.gsub(string.match(moc_info, "State: %a*"),"State: ", "")    
     if moc_state == "PLAY" or moc_state == "PAUSE" then
         moc_artist = string.gsub(string.match(moc_info, "Artist: %C*"), "Artist: ","")
         moc_title = string.gsub(string.match(moc_info, "SongTitle: %C*"), "SongTitle: ","")	
@@ -12,7 +17,7 @@ function hook_moc()
 	if string.find(moc_info, "TotalTime") == nil then
 		moc_totaltime = ""		
 	else
-	        moc_totaltime = string.gsub(string.match(moc_info, "TotalTime: %d*:%d*"), "TotalTime: ","")
+        moc_totaltime = string.gsub(string.match(moc_info, "TotalTime: %d*:%d*"), "TotalTime: ","")
 	end
         moc_nome = '<span color="' .. beautiful.border_focus .. '">MOC ♫ </span>'
 

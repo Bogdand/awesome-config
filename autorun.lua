@@ -3,7 +3,7 @@ run_once("dropbox start")
 -- run_once("xrdb ~/.Xresources")
 
 
-wallpaperFolder = "/home/bogdand/Pictures/wallpapers/2013_06"
+wallpaperFolder = "/home/bogdand/Pictures/wallpapers/2014_01"
 if file_exists(wallpaperFolder) then
   x = 0
 

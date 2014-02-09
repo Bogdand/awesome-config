@@ -5,7 +5,6 @@
 --   + the current day formating is customizable
 
 local string = string
---local print = print
 local tostring = tostring
 local os = os
 local capi = {
@@ -14,23 +13,24 @@ local capi = {
 }
 local awful = require("awful")
 local naughty = require("naughty")
+local dbg = dbg
 module("calendar2")
 
 local calendar = {}
 local current_day_format = "<u>%s</u>"
 
-function displayMonth(month,year,weekStart)
-        local t,wkSt=os.time{year=year, month=month+1, day=0},weekStart or 1
-        local d=os.date("*t",t)
-        local mthDays,stDay=d.day,(d.wday-d.day-wkSt+1)%7
-
-        --print(mthDays .."\n" .. stDay)
+function displayMonth(month, year, weekStart)
+        local t, wkSt = os.time{year= year, month= month + 1, day= 0}, weekStart or 1
+        local d = os.date("*t", t)
+        local mthDays, stDay = d.day, (d.wday - d.day - wkSt + 1) % 7
+        
+        
         local lines = "    "
 
-        for x=0,6 do
-                lines = lines .. os.date("%a ",os.time{year=2006,month=1,day=x+wkSt})
+        for x = 0,6 do
+                lines = lines .. os.date("%a ",os.time{year=2006, month=1, day=x+wkSt})
         end
-
+        
         lines = lines .. "\n" .. os.date(" %V",os.time{year=year,month=month,day=1})
 
         local writeLine = 1
@@ -39,12 +39,12 @@ function displayMonth(month,year,weekStart)
                 writeLine = writeLine + 1
         end
 
-        for d=1,mthDays do
+        for d = 1, mthDays do
                 local x = d
-                local t = os.time{year=year,month=month,day=d}
+                local t = os.time{year= year, month= month, day= d}
                 if writeLine == 8 then
                         writeLine = 1
-                        lines = lines .. "\n" .. os.date(" %V",t)
+                        lines = lines .. "\n" .. os.date(" %V", t)
                 end
                 if os.date("%Y-%m-%d") == os.date("%Y-%m-%d", t) then
                         x = string.format(current_day_format, d)
@@ -55,8 +55,7 @@ function displayMonth(month,year,weekStart)
                 lines = lines .. "  " .. x
                 writeLine = writeLine + 1
         end
-        local header = os.date("%B %Y\n",os.time{year=year,month=month,day=1})
-
+        local header = os.date("%B %Y\n", os.time{year = year, month = month, day = 1})
         return header .. "\n" .. lines
 end
 
@@ -64,21 +63,27 @@ function switchNaughtyMonth(switchMonths)
         if (#calendar < 3) then return end
         local swMonths = switchMonths or 1
         calendar[1] = calendar[1] + swMonths
-        calendar[3].box.widgets[2].text = string.format('<span font_desc="%s">%s</span>', "monospace", displayMonth(calendar[1], calendar[2], 2))
+        naughty.destroy(calendar[3])
+        calendar[3] = createNotification(calendar[1], calendar[2], 2)
+end
+
+function createNotification(month, year, weekStart)
+    return naughty.notify({
+            text = string.format('<span font_desc="%s">%s</span>', "monospace", displayMonth(month, year, weekStart)),
+            position = "top_right",
+            timeout = 0,
+            hover_timeout = 0.5,
+            screen = capi.mouse.screen
+    })
 end
 
 function addCalendarToWidget(mywidget, custom_current_day_format)
   if custom_current_day_format then current_day_format = custom_current_day_format end
 
-  mywidget:add_signal('mouse::enter', function ()
+  mywidget:add_signal('mouse::enter', function ()    
         local month, year = os.date('%m'), os.date('%Y')
         calendar = { month, year,
-        naughty.notify({
-                text = string.format('<span font_desc="%s">%s</span>', "monospace", displayMonth(month, year, 2)),
-                timeout = 0,
-                hover_timeout = 0.5,
-                screen = capi.mouse.screen
-        })
+        createNotification(month, year, 2)        
   }
   end)
   mywidget:add_signal('mouse::leave', function () naughty.destroy(calendar[3]) end)
