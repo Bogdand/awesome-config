@@ -1,6 +1,9 @@
 --- {{{ keyboard indicator
+local wibox = require("wibox")
+
 keyboardWidget = {}
-keyboardWidget.widget = widget({ type = "imagebox", align = "right" })
+keyboardWidget.widget = wibox.widget.imagebox()
+keyboardWidget.widget.align = "right"
 keyboardWidget.updateKeyboardLayout = function()
 	local fd = io.popen("setxkbmap -print | grep xkb_symbols | awk '{print $4}' | awk -F'+' '{print $2}'")    
     local key_layout = fd:read()
@@ -13,11 +16,11 @@ keyboardWidget.updateKeyboardLayout = function()
     end
 
 	local flag_icon = 'lang_' .. flag
-	keyboardWidget.widget.image = image(beautiful[flag_icon])
+	keyboardWidget.widget:set_image(beautiful[flag_icon])
     return
 end
 
-dbus.add_match("session", "interface='ca.desrt.dconf.Writer', arg0path='/org/gnome/desktop/input-sources/'")
-dbus.add_signal("ca.desrt.dconf.Writer", keyboardWidget.updateKeyboardLayout)
+dbus.add_match("session", "interface='ca.desrt.dconf.Writer', arg0path='/desktop/ibus/general/engines-order'")
+dbus.connect_signal("ca.desrt.dconf.Writer", keyboardWidget.updateKeyboardLayout)
  
 keyboardWidget.updateKeyboardLayout()

@@ -65,9 +65,19 @@ globalkeys = awful.util.table.join(
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
               end),
+
+    -- Multimedia keys
     awful.key({ }, "XF86AudioRaiseVolume", function () volumeWidget.up() end),
     awful.key({ }, "XF86AudioLowerVolume", function () volumeWidget.down() end),
-    awful.key({ }, "XF86AudioMute", function () volumeWidget.toggle() end)
+    awful.key({ }, "XF86AudioMute", function () volumeWidget.toggle() end),
+    awful.key({ }, "XF86MonBrightnessUp", function () awful.util.spawn("xbacklight -inc 10") end),
+    awful.key({ }, "XF86MonBrightnessDown", function () awful.util.spawn("xbacklight -dec 10") end),
+
+    -- App launchers
+    awful.key({ modkey, }, "-", function () awful.util.spawn(terminal .. " -e htop") end),
+    awful.key({ modkey, }, "0", function () awful.util.spawn(terminal .. " -e " .. music_player) end),
+    awful.key({ modkey, }, "BackSpace", function () awful.util.spawn(terminal .. " -e mc") end),
+    awful.key({ modkey, }, "Print", function () awful.util.spawn(screenshot_app) end)
 )
 
 clientkeys = awful.util.table.join(

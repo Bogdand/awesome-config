@@ -2,6 +2,8 @@
 terminal = "gnome-terminal"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
+music_player = "mocp"
+screenshot_app = "shutter"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.

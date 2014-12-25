@@ -1,4 +1,6 @@
 -- {{{ Rules
+
+-- xprop - to read app class
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
@@ -17,7 +19,7 @@ awful.rules.rules = {
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
     { rule = { class = "Skype" }, properties = { tag = tags[1][3], switchtotag = true } },
-    { rule = { class = "browser" }, properties = { tag = tags[1][2], switchtotag = true } },
+    { rule = { role = "browser" }, properties = { tag = tags[1][2], switchtotag = true } },
 --    { rule = { name = "Chromium" }, properties = { tag = tags[1][2], switchtotag = true } },
     { rule = { class = "mail" }, properties = { tag = tags[1][4], switchtotag = true } },
 
@@ -26,12 +28,12 @@ awful.rules.rules = {
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
-client.add_signal("manage", function (c, startup)
+client.connect_signal("manage", function (c, startup)
     -- Add a titlebar
     -- awful.titlebar.add(c, { modkey = modkey })
 
     -- Enable sloppy focus
-    c:add_signal("mouse::enter", function(c)
+    c:connect_signal("mouse::enter", function(c)
         if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
             and awful.client.focus.filter(c) then
             client.focus = c
@@ -51,6 +53,6 @@ client.add_signal("manage", function (c, startup)
     end
 end)
 
-client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}

@@ -51,12 +51,12 @@ local function pomodoro_notify(text)
                  })
 end
 
-pomodoro_timer:add_signal("timeout", function(c) 
+pomodoro_timer:connect_signal("timeout", function(c) 
                                           pomodoro_end()
                                           pomodoro_notify('Ended')  
                                        end)
 
-pomodoro_tooltip_timer:add_signal("timeout", function(c) 
+pomodoro_tooltip_timer:connect_signal("timeout", function(c) 
                                              pomodoro_nbsec = pomodoro_nbsec + 1
                                        end)
 

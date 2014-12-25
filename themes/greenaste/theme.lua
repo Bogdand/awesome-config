@@ -2,6 +2,7 @@
 
 --{{{ Main
 require("awful.util")
+local gears = require("gears")
 
 theme = {}
 
@@ -28,15 +29,15 @@ wallpaper4    = sharedthemes .. "/default/background.png"
 wpscript      = home .. "/.wallpaper"
 
 if awful.util.file_readable(wallpaper1) then
-	theme.wallpaper_cmd = { "awsetbg " .. wallpaper1 }
+	theme.wallpaper_cmd = { gears.wallpaper.maximized(wallpaper1, 1, true)}
 elseif awful.util.file_readable(wallpaper2) then
-	theme.wallpaper_cmd = { "awsetbg " .. wallpaper2 }
+	theme.wallpaper_cmd = { gears.wallpaper.maximized(wallpaper2, 1, true) }
 elseif awful.util.file_readable(wpscript) then
 	theme.wallpaper_cmd = { "sh " .. wpscript }
 elseif awful.util.file_readable(wallpaper3) then
-	theme.wallpaper_cmd = { "awsetbg " .. wallpaper3 }
+	theme.wallpaper_cmd = { gears.wallpaper.maximized(wallpaper3, 1, true) }
 else
-	theme.wallpaper_cmd = { "awsetbg " .. wallpaper4 }
+	theme.wallpaper_cmd = { gears.wallpaper.maximized(wallpaper4, 1, true) }
 end
 
 if awful.util.file_readable(config .. "/vain/init.lua") then

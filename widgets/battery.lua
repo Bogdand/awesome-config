@@ -1,8 +1,10 @@
 -- {{{ Battery widget
+local wibox = require("wibox")
+
 batteryWidget = {}
-batteryWidget.widget = widget({ type = "textbox" })
-batteryWidget.icon = widget({ type = "imagebox" })
-batteryWidget.icon.image = image(beautiful.widget_battery)
+batteryWidget.widget = wibox.widget.textbox()
+batteryWidget.icon = wibox.widget.imagebox()
+batteryWidget.icon:set_image(beautiful.widget_battery)
 batteryWidget.lastVolume = "100"
 
 -- Register widget

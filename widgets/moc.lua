@@ -1,11 +1,11 @@
 -- moc player
+local wibox = require("wibox")
 
 mocWidget = {}
 
 function hook_moc()
     moc_info = io.popen("mocp -i"):read("*all")
-    
-    if (moc_info == nil) then 
+    if (string.len(moc_info) == 0) then 
       return 
     end
 
@@ -70,11 +70,13 @@ end
 -- Moc widget timer
 
 mocWidget.timer = timer { timeout = 1 }
-mocWidget.timer:add_signal("timeout", function() hook_moc() end)
+mocWidget.timer:connect_signal("timeout", function() hook_moc() end)
 mocWidget.timer:start()
 
 -- moc widget
-mocWidget.widget = widget({ type = "textbox", name = "mocWidget.widget", align = "right" }) 
+mocWidget.widget = wibox.widget.textbox()
+mocWidget.widget.name = "mocWidget.widget"
+mocWidget.widget.align = "right" 
 mocWidget.widget:buttons(awful.util.table.join(
                    awful.button({ }, 1, function () pause_moc() end), --click per pausa
                    awful.button({ }, 2, function () prev_moc() end),
@@ -82,4 +84,4 @@ mocWidget.widget:buttons(awful.util.table.join(
                    awful.button({ }, 4, function () volup_moc() end),
                    awful.button({ }, 5, function () voldown_moc() end))) 
     
-awful.widget.layout.margins[mocWidget.widget] = { right = 9 }
+-- awful.widget.layout.margins[mocWidget.widget] = { right = 9 }

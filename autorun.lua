@@ -1,4 +1,10 @@
 run_once("dropbox start")
+run_once("nm-applet")
+-- run_once("indicator-cpufreq")
+run_once("clipit")
+-- run_once("gnome-session")
+run_once("unity-settings-daemon")
+-- run_once("setxkbmap -option grp:alt_shift_toggle us,ru")
 -- run_once("synapse")
 -- run_once("xrdb ~/.Xresources")
 
@@ -9,7 +15,7 @@ if file_exists(wallpaperFolder) then
 
   -- setup the timer
   mytimer = timer { timeout = x }
-  mytimer:add_signal("timeout", function()
+  mytimer:connect_signal("timeout", function()
 
     -- tell awsetbg to randomly choose a wallpaper from your wallpaper directory
     os.execute("awsetbg -T -r " .. wallpaperFolder .. "&")

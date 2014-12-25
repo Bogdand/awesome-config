@@ -1,11 +1,13 @@
 -- {{{ Volume widget
+local wibox = require("wibox")
 
 volumeWidget = {}
-volumeWidget.cardid  = 0
+volumeWidget.cardid  = 1
 volumeWidget.channel = "Master"
-volumeWidget.widget = widget({ type = "textbox", name = "volumeWidget.widget", align = "right" })
-volumeWidget.icon = widget({ type = "imagebox" })
-volumeWidget.icon.image = image(beautiful.widget_volume)
+volumeWidget.widget = wibox.widget.textbox()
+volumeWidget.widget.align = "right"
+volumeWidget.widget.name = "volumeWidget.widget"
+volumeWidget.icon = wibox.widget.imagebox(beautiful.widget_volume)
 
 volumeWidget.tooltip = awful.tooltip({ objects = { volumeWidget.widget },})
 volumeWidget.tooltip:set_text("Volume")
@@ -20,16 +22,13 @@ volumeWidget.mixercommand = function (command)
        volume = string.format("% 3d", volume)
        status = string.match(status, "%[(o[^%]]*)%]")
        if string.find(status, "on", 1, true) then
-		volume = volume .. "%"
-		awful.util.spawn_with_shell("amixer -c 0 sset Speaker unmute") 
-		awful.util.spawn_with_shell("amixer -c 0 sset Headphone unmute") 
---		io.popen("amixer -c 0 sset Master unmute")
---		io.popen("amixer -c 0 sset Front unmute")
---		io.popen("amixer -c 0 sset Headphone unmute")
+      		volume = volume .. "%"
+      		awful.util.spawn_with_shell("amixer -c 0 sset Speaker unmute") 
+      		awful.util.spawn_with_shell("amixer -c 0 sset Headphone unmute") 
        else
                volume = volume .. "M"	
        end
-       volumeWidget.widget.text = volume
+       volumeWidget.widget:set_text(volume)
 end
 volumeWidget.update = function ()
        volumeWidget.mixercommand(" sget " .. volumeWidget.channel)
@@ -41,7 +40,7 @@ volumeWidget.down = function ()
        volumeWidget.mixercommand(" sset " .. volumeWidget.channel .. " 1%-")
 end
 volumeWidget.toggle = function ()
-       volumeWidget.mixercommand(" sset " .. volumeWidget.channel .. " toggle")
+       volumeWidget.mixercommand(" -D pulse sset " .. volumeWidget.channel .. " toggle")
 end
 
 volumeWidget.widget:buttons(awful.util.table.join(

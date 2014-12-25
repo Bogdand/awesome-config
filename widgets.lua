@@ -1,17 +1,16 @@
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
+local wibox = require("wibox")
+mytextclock = awful.widget.textclock.new()
 
 require('widgets/calendar2')
 calendar2.addCalendarToWidget(mytextclock)
 
 -- Create a systray
-mysystray = widget({ type = "systray" })
+mysystray = wibox.widget.systray()
 
-spacer = widget({type = "textbox"})
-separator = widget({type = "textbox"})
-spacer.text = " "
-separator.text = "|"
+spacer = wibox.widget.textbox(" ")
+separator = wibox.widget.textbox("|")
 
 require('widgets/battery')
 require('widgets/memory')
@@ -64,10 +63,10 @@ mytasklist.buttons = awful.util.table.join(
                                               awful.client.focus.byidx(-1)
                                               if client.focus then client.focus:raise() end
                                           end))
-
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
-    mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
+
+    mypromptbox[s] = awful.widget.prompt({ layout = wibox.layout.fixed.horizontal() })
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     mylayoutbox[s] = awful.widget.layoutbox(s)
@@ -77,36 +76,64 @@ for s = 1, screen.count() do
                            awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
     -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
+    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 
     -- Create a tasklist widget
-    mytasklist[s] = awful.widget.tasklist(function(c)
-                                              return awful.widget.tasklist.label.currenttags(c, s)
-                                          end, mytasklist.buttons)
+    mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 18 })
     -- Add widgets to the wibox - order matters
-    mywibox[s].widgets = {
-        {
-            mylauncher,
-            mytaglist[s],
-            mypromptbox[s],	
-	    s == 1 and mocWidget.widget or nil,
-            layout = awful.widget.layout.horizontal.leftright
-        },
-        mylayoutbox[s],
-        mytextclock, spacer, separator, spacer,
-	batteryWidget.widget, spacer,  batteryWidget.icon, spacer, separator, spacer,
+    local left_layout = wibox.layout.fixed.horizontal()
+    left_layout:add(mylauncher)
+    left_layout:add(mytaglist[s])
+    left_layout:add(mypromptbox[s])
+    if s == 1 then 
+      left_layout:add(mocWidget.widget) 
+    end
 
-	cpuWidget.widget, spacer, cpuWidget.icon, spacer, separator, spacer,
-	memoryWidget.widget, spacer, memoryWidget.icon, spacer, separator, spacer,
-        volumeWidget.widget, spacer, volumeWidget.icon, spacer, separator, spacer,
-        keyboardWidget.widget, spacer, separator, spacer,
-        s == 1 and mysystray or nil,
-        mytasklist[s],
-        layout = awful.widget.layout.horizontal.rightleft
-    }
+    local right_layout = wibox.layout.fixed.horizontal()
+    if s == 1 then right_layout:add(mysystray) end
+    right_layout:add(spacer)
+    right_layout:add(separator)
+    right_layout:add(spacer)
+    right_layout:add(keyboardWidget.widget)
+    right_layout:add(spacer)
+    right_layout:add(separator)
+    right_layout:add(spacer)
+    right_layout:add(volumeWidget.icon)
+    right_layout:add(spacer)
+    right_layout:add(volumeWidget.widget)
+    right_layout:add(spacer)
+    right_layout:add(separator)
+    right_layout:add(spacer)
+    right_layout:add(memoryWidget.icon)
+    right_layout:add(spacer)
+    right_layout:add(memoryWidget.widget)
+    right_layout:add(spacer)
+    right_layout:add(separator)
+    right_layout:add(spacer)
+    right_layout:add(cpuWidget.icon)
+    right_layout:add(spacer)
+    right_layout:add(cpuWidget.widget)
+    right_layout:add(spacer)
+    right_layout:add(separator)
+    right_layout:add(spacer)
+    right_layout:add(batteryWidget.icon)
+    right_layout:add(spacer)
+    right_layout:add(batteryWidget.widget)
+    right_layout:add(spacer)
+    right_layout:add(separator)
+    right_layout:add(spacer)
+    right_layout:add(mytextclock)
+    right_layout:add(mylayoutbox[s])
+
+
+    local layout = wibox.layout.align.horizontal()
+    layout:set_left(left_layout)
+    layout:set_middle(mytasklist[s])
+    layout:set_right(right_layout)
+
+    mywibox[s]:set_widget(layout)    
 end
 -- }}}
-

@@ -4,17 +4,17 @@ myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua" },
    { "restart", awesome.restart },
-   { "Log out", function () awesome.spawn("gnome-session-quit"); end},
+   { "Log out", function () awesome.quit(); end},
    { "Lock screen", function () awesome.spawn("gnome-screensaver-command -l"); end},
-   { "Shutdown", function () awesome.spawn("gdm-control --shutdown"); awesome.quit() end}
+   { "htop", terminal .. " -e htop" }   
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu },                                    
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu }, 
+									{ "settings", "unity-control-center" },                                   
                                     { "open terminal", terminal }
                                   }
                         })
 
-mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
-                                     menu = mymainmenu })
+mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
 -- }}}
 
